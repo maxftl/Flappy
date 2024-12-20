@@ -5,6 +5,7 @@ import { Background } from './background';
 import { Bird } from './bird';
 import { PipeQueue } from './pipe_queue';
 import { loadAudio } from './load_audio';
+import { PointsDisplay } from './points_display';
 
 const canvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
 canvas.width = config.canvasWidth;
@@ -14,6 +15,11 @@ if (!context) {
   throw "2d Context not supported";
 }
 
+const pointImages: Array<HTMLImageElement> = [];
+for(let i=0; i < 10; ++i) {
+  pointImages.push(await loadImage(i.toString() + ".png"));
+}
+const pointsDisplay = new PointsDisplay(pointImages, 10, 10);
 
 const backgroundImage = await loadImage("background-day.png");
 const background = new Background(backgroundImage, config.backgroundVelocity);
@@ -47,6 +53,7 @@ const runGame = () => {
   pipeQueue.reset();
   background.reset();
   base.reset();
+  pointsDisplay.reset();
 
   let lastUpdateTime = Date.now();
   const loop = () => {
@@ -60,6 +67,7 @@ const runGame = () => {
       console.log(pointAudio);
       pointAudio.play();
       pointAudio.load();
+      pointsDisplay.points += 1;
     }
     const now = Date.now();
     const timeDelta = now - lastUpdateTime;
@@ -75,6 +83,7 @@ const runGame = () => {
     bird.draw(context);
     base.update(timeDelta);
     base.draw(context);
+    pointsDisplay.draw(context);
     
     lastUpdateTime = now;
     if(isRunning)

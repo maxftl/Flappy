@@ -39,6 +39,7 @@ export class PipeQueue implements Drawable {
         const frontPipe = this.pipePairs[0];
         if(frontPipe.x < -frontPipe.pipeImage.width) {
             this.pipePairs.splice(0,1);
+            frontPipe.reset();
             frontPipe.x = this.pipePairs[1].x + config.canvasWidth*0.5;
             frontPipe.openingCenter = randomOpeningCenter();
             this.pipePairs.push(frontPipe);

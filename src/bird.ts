@@ -45,18 +45,20 @@ export class Bird implements Drawable {
     };
 
     #lookUp = (context: CanvasRenderingContext2D) => {
+        const angle = Math.atan(-this.velocity / config.backgroundVelocity);
         const translX = this.x + this.width/2;
         const translY = this.y + this.height/2;
         context.translate(translX, translY);
-        context.rotate(-Math.PI/4);
+        context.rotate(angle);
         context.translate(-translX, -translY);
     }
 
     #lookDown = (context: CanvasRenderingContext2D) => {
+        const angle = Math.atan(-this.velocity / config.backgroundVelocity);
         const translX = this.x + this.width/2;
         const translY = this.y + this.height/2;
         context.translate(translX, translY);
-        context.rotate(Math.PI/4);
+        context.rotate(angle);
         context.translate(-translX, -translY);
     }
 
