@@ -7,16 +7,19 @@ export class PipePair implements Drawable {
     pipeImage: HTMLImageElement;
     openingWidth: number;
     openingCenter: number;
+    madePoint: boolean;
 
     constructor(pipeImage: HTMLImageElement, x: number, openingCenter: number) {
         this.x = x;
         this.pipeImage = pipeImage;
         this.openingWidth = config.pipeOpeningWidth;
         this.openingCenter = openingCenter;
+        this.madePoint = false;
     }
 
     reset = () => {
         this.x = config.canvasWidth;
+        this.madePoint = false;
     };
 
     update = (timeDelta: number) => {
@@ -42,6 +45,15 @@ export class PipePair implements Drawable {
         if(this.x + this.pipeImage.width < bird.x) return false;
         if(bird.y < this.openingCenter - this.openingWidth/2) return true;
         if(bird.y + bird.height > this.openingCenter + this.openingWidth/2) return true;
+        return false;
+    };
+
+    checkMadePoint = () => {
+        if(this.madePoint) return false;
+        if(this.x + this.pipeImage.width < 20) {
+            this.madePoint = true;
+            return true;
+        }
         return false;
     };
 }

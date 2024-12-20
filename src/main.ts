@@ -1,10 +1,10 @@
 import './style.css';
 import { config } from './config';
 import { loadImage } from './load_image';
-import { PipePair } from './pipe_pair';
 import { Background } from './background';
 import { Bird } from './bird';
 import { PipeQueue } from './pipe_queue';
+import { loadAudio } from './load_audio';
 
 const canvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
 canvas.width = config.canvasWidth;
@@ -13,6 +13,7 @@ let context = canvas.getContext("2d");
 if (!context) {
   throw "2d Context not supported";
 }
+
 
 const backgroundImage = await loadImage("background-day.png");
 const background = new Background(backgroundImage, config.backgroundVelocity);
@@ -29,6 +30,8 @@ const bird = new Bird(birdImages);
 
 const pipeImage = await loadImage("pipe-green.png");
 const pipeQueue = new PipeQueue(pipeImage);
+
+const pointAudio = await loadAudio("point.ogg");
 
 let upPressed = false;
 window.addEventListener('keydown', (ev: KeyboardEvent) => {
@@ -52,6 +55,11 @@ const runGame = () => {
     }
     if(pipeQueue.checkCollision(bird)) {
       isRunning = false;
+    }
+    if(pipeQueue.checkMadePoint()) {
+      console.log(pointAudio);
+      pointAudio.play();
+      pointAudio.load();
     }
     const now = Date.now();
     const timeDelta = now - lastUpdateTime;

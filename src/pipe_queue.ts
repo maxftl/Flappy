@@ -56,6 +56,13 @@ export class PipeQueue implements Drawable {
             if(pipePair.checkCollision(bird)) return true;
         }
         return false;
-    }
+    };
+
+    checkMadePoint = () => {
+        for(const pipePair of this.pipePairs) {
+            if(pipePair.checkMadePoint()) return true;
+        }
+        return false;
+    };
 
 };
