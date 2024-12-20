@@ -1,7 +1,7 @@
 import './style.css';
 import { config } from './config';
 import { loadImage } from './load_image';
-import { Sprite } from './sprite';
+import { PipePair } from './pipe_pair';
 import { Background } from './background';
 import { Bird } from './bird';
 
@@ -23,6 +23,9 @@ const birdImages = {
 };
 const bird = new Bird(birdImages);
 
+const pipeImage = await loadImage("pipe-green.png");
+const pipePair = new PipePair(pipeImage);
+
 let upPressed = false;
 window.addEventListener('keydown', (ev: KeyboardEvent) => {
   if (ev.key == "ArrowUp") {
@@ -34,6 +37,7 @@ let isRunning = false;
 const runGame = () => {
   isRunning = true;
   bird.reset();
+  pipePair.reset();
   background.reset();
 
   let lastUpdateTime = Date.now();
@@ -49,6 +53,8 @@ const runGame = () => {
       bird.flap();
       upPressed = false;
     }
+    pipePair.update(timeDelta);
+    pipePair.draw(context);
     bird.update(timeDelta);
     bird.draw(context);
     lastUpdateTime = now;
