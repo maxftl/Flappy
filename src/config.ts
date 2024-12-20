@@ -1,4 +1,3 @@
-import path from "path";
 
 export const config = {
     canvasWidth: 200,

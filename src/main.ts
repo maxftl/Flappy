@@ -1,6 +1,7 @@
 import './style.css';
 import { config }  from './config';
-import path from 'path';
+import { loadImage } from './load_image'; 
+import { Sprite } from './sprite';
 
 let canvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
 canvas.width = config.canvasWidth;
@@ -10,9 +11,6 @@ if(!context) {
   throw "2d Context not supported";
 }
 
-const image = new Image();
-image.addEventListener("load", () => {
-  context.drawImage(image, 0, 0);
-});
-
-image.src = config.spriteDirectory + "0.png";
+const image = await loadImage("base.png");
+const sprite = new Sprite(image, 10, 20);
+sprite.draw(context);
