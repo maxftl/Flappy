@@ -4,4 +4,5 @@ export const config = {
     canvasHeight: 512,
     spriteDirectory: "flappy-bird-assets/sprites/",
     backgroundVelocity: -0.1,
+    gravity: 0.0005,
 };

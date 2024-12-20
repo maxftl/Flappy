@@ -23,12 +23,25 @@ const birdImages = {
 };
 const bird = new Bird(birdImages);
 
+let upPressed = false;
+window.addEventListener('keydown', (ev: KeyboardEvent) => {
+  if(ev.key == "ArrowUp") {
+    upPressed = true;
+  }
+});
+
 let lastUpdateTime = Date.now();
 const loop = () => {
+  if(bird.y > config.canvasHeight) return;
   const now = Date.now();
   const timeDelta = now - lastUpdateTime;
   background.update(timeDelta);
   background.draw(context);
+  if(upPressed) {
+    bird.flap();
+    upPressed = false;
+  }
+  bird.update(timeDelta);
   bird.draw(context);
   lastUpdateTime = now;
   window.requestAnimationFrame(loop);
