@@ -14,6 +14,11 @@ export class Background implements Drawable {
         this.velocity = config.backgroundVelocity;
     }
 
+    reset = () => {
+        this.sprites[0].x = 0;
+        this.sprites[1].x = config.canvasWidth;
+    }
+
     update = (timeDelta: number) => {
         const displacement = timeDelta * this.velocity;
         for(const sprite of this.sprites) {

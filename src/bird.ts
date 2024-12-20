@@ -17,15 +17,23 @@ export class Bird implements Drawable {
     height: number;
     velocity: number;
 
+    reset = () => {
+        this.x = 20;
+        this.y = (config.canvasHeight - this.currentFrame.height)/2;
+        this.velocity = 0;
+    }
+
     constructor(frames: BirdFrames) {
         this.frames = frames;
         this.currentFrame = frames.midflap;
         this.width = this.currentFrame.width;
         this.height = this.currentFrame.height;
-        this.x = 20;
-        this.y = (config.canvasHeight - this.currentFrame.height)/2;
+        this.x = 0;
+        this.y = 0;
         this.velocity = 0;
+        this.reset();
     }
+    
 
     flap = () => {
         this.velocity = -0.5;
