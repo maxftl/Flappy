@@ -6,12 +6,12 @@ export class Background implements Drawable {
     sprites: Array<Sprite>;
     velocity: number;
 
-    constructor(backgroundImage: HTMLImageElement) {
+    constructor(backgroundImage: HTMLImageElement, velocity: number, y: number = 0) {
         this.sprites = [
-            new Sprite(backgroundImage, 0, 0), 
-            new Sprite(backgroundImage, config.canvasWidth, 0),
+            new Sprite(backgroundImage, 0, y), 
+            new Sprite(backgroundImage, config.canvasWidth, y),
         ];
-        this.velocity = config.backgroundVelocity;
+        this.velocity = velocity;
     }
 
     reset = () => {

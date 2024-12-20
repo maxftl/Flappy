@@ -4,6 +4,7 @@ import { loadImage } from './load_image';
 import { PipePair } from './pipe_pair';
 import { Background } from './background';
 import { Bird } from './bird';
+import { PipeQueue } from './pipe_queue';
 
 const canvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
 canvas.width = config.canvasWidth;
@@ -14,7 +15,10 @@ if (!context) {
 }
 
 const backgroundImage = await loadImage("background-day.png");
-const background = new Background(backgroundImage);
+const background = new Background(backgroundImage, config.backgroundVelocity);
+
+const baseImage = await loadImage("base.png");
+const base = new Background(baseImage, config.pipeVelocity, config.canvasHeight - baseImage.height);
 
 const birdImages = {
   downflap: await loadImage("bluebird-downflap.png"),
@@ -24,7 +28,7 @@ const birdImages = {
 const bird = new Bird(birdImages);
 
 const pipeImage = await loadImage("pipe-green.png");
-const pipePair = new PipePair(pipeImage);
+const pipeQueue = new PipeQueue(pipeImage);
 
 let upPressed = false;
 window.addEventListener('keydown', (ev: KeyboardEvent) => {
@@ -37,12 +41,13 @@ let isRunning = false;
 const runGame = () => {
   isRunning = true;
   bird.reset();
-  pipePair.reset();
+  pipeQueue.reset();
   background.reset();
+  base.reset();
 
   let lastUpdateTime = Date.now();
   const loop = () => {
-    if (bird.y > config.canvasHeight) {
+    if (bird.y > config.canvasHeight - baseImage.height - bird.height) {
       isRunning = false;
     }
     const now = Date.now();
@@ -53,10 +58,12 @@ const runGame = () => {
       bird.flap();
       upPressed = false;
     }
-    pipePair.update(timeDelta);
-    pipePair.draw(context);
+    pipeQueue.update(timeDelta);
+    pipeQueue.draw(context);
     bird.update(timeDelta);
     bird.draw(context);
+    base.update(timeDelta);
+    base.draw(context);
     lastUpdateTime = now;
     if(isRunning)
       window.requestAnimationFrame(loop);

@@ -7,11 +7,11 @@ export class PipePair implements Drawable {
     openingWidth: number;
     openingCenter: number;
 
-    constructor(pipeImage: HTMLImageElement) {
-        this.x = config.canvasWidth;
+    constructor(pipeImage: HTMLImageElement, x: number, openingCenter: number) {
+        this.x = x;
         this.pipeImage = pipeImage;
         this.openingWidth = 100;
-        this.openingCenter = config.canvasHeight / 2;
+        this.openingCenter = openingCenter;
     }
 
     reset = () => {
