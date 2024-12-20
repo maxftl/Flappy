@@ -1,5 +1,6 @@
 import { Drawable } from "./drawable";
 import { config } from "./config";
+import { Bird } from "./bird";
 
 export class PipePair implements Drawable {
     x: number;
@@ -34,5 +35,13 @@ export class PipePair implements Drawable {
             this.x,
             this.openingCenter + this.openingWidth/2);
         context.restore();
+    };
+
+    checkCollision = (bird: Bird) => {
+        if(this.x > bird.x + bird.width) return false;
+        if(this.x + this.pipeImage.width < bird.x) return false;
+        if(bird.y < this.openingCenter - this.openingWidth/2) return true;
+        if(bird.y + bird.height > this.openingCenter + this.openingWidth/2) return true;
+        return false;
     };
 }

@@ -50,6 +50,9 @@ const runGame = () => {
     if (bird.y > config.canvasHeight - baseImage.height - bird.height) {
       isRunning = false;
     }
+    if(pipeQueue.checkCollision(bird)) {
+      isRunning = false;
+    }
     const now = Date.now();
     const timeDelta = now - lastUpdateTime;
     background.update(timeDelta);
@@ -64,6 +67,7 @@ const runGame = () => {
     bird.draw(context);
     base.update(timeDelta);
     base.draw(context);
+    
     lastUpdateTime = now;
     if(isRunning)
       window.requestAnimationFrame(loop);

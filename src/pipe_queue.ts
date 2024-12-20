@@ -2,6 +2,7 @@ import { randomBytes } from "crypto";
 import { config } from "./config";
 import { Drawable } from "./drawable";
 import { PipePair } from "./pipe_pair";
+import { Bird } from "./bird";
 
 const randomOpeningCenter =  () => {
     let result = config.playAreaHeight/2;
@@ -49,5 +50,12 @@ export class PipeQueue implements Drawable {
             pipePair.draw(context);
         }
     };
+
+    checkCollision = (bird: Bird) => {
+        for(const pipePair of this.pipePairs) {
+            if(pipePair.checkCollision(bird)) return true;
+        }
+        return false;
+    }
 
 };
