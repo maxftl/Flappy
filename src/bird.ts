@@ -36,7 +36,7 @@ export class Bird implements Drawable {
     
 
     flap = () => {
-        this.velocity = -0.5;
+        this.velocity = -0.3;
     }
 
     update = (timeDelta: number) => {

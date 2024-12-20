@@ -3,6 +3,13 @@ import { config } from "./config";
 import { Drawable } from "./drawable";
 import { PipePair } from "./pipe_pair";
 
+const randomOpeningCenter =  () => {
+    let result = config.playAreaHeight/2;
+    result += (Math.random() - 0.5) * config.playAreaHeight/4;
+    result += (Math.random() - 0.5) * config.playAreaHeight/4;
+    return result;
+};
+
 export class PipeQueue implements Drawable {
 
     pipePairs: Array<PipePair>;
@@ -11,9 +18,9 @@ export class PipeQueue implements Drawable {
     constructor(pipeImage: HTMLImageElement) {
         this.gameHeight = 250;
         this.pipePairs = [
-            new PipePair(pipeImage, config.canvasWidth, Math.random() * this.gameHeight + 50),
-            new PipePair(pipeImage, config.canvasWidth * 1.5, Math.random() * this.gameHeight + 50),
-            new PipePair(pipeImage, config.canvasWidth * 2, Math.random() * this.gameHeight + 50),
+            new PipePair(pipeImage, config.canvasWidth, randomOpeningCenter()),
+            new PipePair(pipeImage, config.canvasWidth * 1.5, randomOpeningCenter()),
+            new PipePair(pipeImage, config.canvasWidth * 2, randomOpeningCenter()),
         ];
     }
 
@@ -32,7 +39,7 @@ export class PipeQueue implements Drawable {
         if(frontPipe.x < -frontPipe.pipeImage.width) {
             this.pipePairs.splice(0,1);
             frontPipe.x = this.pipePairs[1].x + config.canvasWidth*0.5;
-            frontPipe.openingCenter = Math.random() * this.gameHeight + 50;
+            frontPipe.openingCenter = randomOpeningCenter();
             this.pipePairs.push(frontPipe);
         }
     };
