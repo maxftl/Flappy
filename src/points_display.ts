@@ -2,34 +2,47 @@ import { Drawable } from "./drawable";
 
 export class PointsDisplay implements Drawable {
 
-    points: number;
     x: number;
     y: number;
     numberWidth: number;
     pointImages: Array<HTMLImageElement>;
+    #digits: Array<number>;
+    #points: number;
 
     constructor(pointImages: Array<HTMLImageElement>, x: number, y: number) {
-        this.points = 0;
         this.x = x;
         this.y = y;
         this.numberWidth = pointImages[0].width;
         this.pointImages = pointImages;
+        this.#digits = [];
+        this.#points = 0;
+    }
+
+    set points(p: number) {
+        this.#points = p;
+        this.#digits = [];
+        while(p != 0) {
+            this.#digits.push(p%10);
+            p = Math.floor(p/10);
+        }
+        this.#digits.reverse();
+    }
+
+    get points() {
+        return this.#points;
     }
 
     reset = () => {
         this.points = 0;
     };
 
+    update = () => {
+
+    }
+
     draw = (context: CanvasRenderingContext2D) => {
-        const digits: Array<number> = [];
-        let p = this.points;
-        while(p != 0) {
-            digits.push(p%10);
-            p = Math.floor(p/10);
-        }
-        digits.reverse();
         let currentX = this.x;
-        for(const digit of digits) {
+        for(const digit of this.#digits) {
             context.drawImage(this.pointImages[digit], currentX, this.y);
             currentX += this.numberWidth;
         }

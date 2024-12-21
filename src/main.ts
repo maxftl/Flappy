@@ -7,6 +7,7 @@ import { PipeQueue } from './pipe_queue';
 import { loadAudio } from './load_audio';
 import { PointsDisplay } from './points_display';
 
+
 const canvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
 canvas.width = config.canvasWidth;
 canvas.height = config.canvasHeight;
