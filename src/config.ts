@@ -14,8 +14,8 @@ export const config = {
     pipeOpeningWidth: 130,
     spriteDirectory: "flappy-bird-assets/sprites/",
     audioDirectory: "flappy-bird-assets/audio/",
-    backgroundVelocity: -0.1,
-    pipeVelocity: -0.2,
+    backgroundVelocity: -0.05,
+    pipeVelocity: -0.1,
     gravity: 0.001,
     requiredImages: [
         "0.png",
