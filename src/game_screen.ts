@@ -30,7 +30,7 @@ export class GameScreen {
 
         // init sprites
         this.pointsDisplay = new PointsDisplay(10, 10);
-        this.background = new Background("background-day.png", config.backgroundVelocity);
+        this.background = new Background("background-night.png", config.backgroundVelocity);
         this.base = new Background("base.png", config.pipeVelocity, config.canvasHeight - config.baseHeight);
         this.bird = new Bird();
         this.pipeQueue = new PipeQueue();
