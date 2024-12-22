@@ -44,4 +44,7 @@ export const config = {
         "yellowbird-midflap.png",
         "yellowbird-upflap.png",
     ],
+    requiredAudios: [
+        "point.ogg",
+    ],
 };

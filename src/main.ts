@@ -4,7 +4,7 @@ import { getImage } from './get_image';
 import { Background } from './background';
 import { Bird } from './bird';
 import { PipeQueue } from './pipe_queue';
-import { loadAudio } from './load_audio';
+import { getAudio } from './get_audio';
 import { PointsDisplay } from './points_display';
 import { StartScreen } from './start_screen';
 
@@ -40,7 +40,7 @@ const bird = new Bird(birdImages);
 const pipeImage = getImage("pipe-green.png");
 const pipeQueue = new PipeQueue(pipeImage);
 
-const pointAudio = await loadAudio("point.ogg");
+const pointAudio = getAudio("point.ogg");
 
 let upPressed = false;
 window.addEventListener('keydown', (ev: KeyboardEvent) => {
