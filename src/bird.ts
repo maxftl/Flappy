@@ -10,32 +10,38 @@ export interface BirdFrames {
 
 export class Bird implements Drawable {
 
-    frames: BirdFrames;
-    currentFrame: HTMLImageElement;
+    frames: Array<HTMLImageElement>;
+    currentFrameId: number;
     x: number;
     y: number;
     width: number;
     height: number;
     velocity: number;
+    timePerFrame: number;
+    timeSinceLastFrame: number;
 
     reset = () => {
+        this.timeSinceLastFrame = 0;
         this.x = 20;
-        this.y = (config.canvasHeight - this.currentFrame.height)/2;
+        this.y = (config.canvasHeight - this.frames[0].height)/2;
         this.velocity = 0;
     }
 
     constructor() {
-        this.frames = {
-            downflap: getImage("bluebird-downflap.png"),
-            upflap: getImage("bluebird-upflap.png"),
-            midflap: getImage("bluebird-midflap.png"),
-        };
-        this.currentFrame = this.frames.midflap;
-        this.width = this.currentFrame.width;
-        this.height = this.currentFrame.height;
+        this.frames = [
+            getImage("bluebird-downflap.png"),
+            getImage("bluebird-midflap.png"),
+            getImage("bluebird-upflap.png"),
+            getImage("bluebird-midflap.png"),
+        ];
+        this.currentFrameId = 1;
+        this.width = this.frames[0].width;
+        this.height = this.frames[0].height;
         this.x = 0;
         this.y = 0;
         this.velocity = 0;
+        this.timePerFrame = 100;
+        this.timeSinceLastFrame = 0;
         this.reset();
     }
     
@@ -47,6 +53,11 @@ export class Bird implements Drawable {
     update = (timeDelta: number) => {
         this.velocity += config.gravity * timeDelta;
         this.y += this.velocity * timeDelta;
+        this.timeSinceLastFrame += timeDelta;
+        while(this.timeSinceLastFrame > this.timePerFrame) {
+            this.currentFrameId = (this.currentFrameId + 1)%this.frames.length;
+            this.timeSinceLastFrame -= this.timePerFrame;
+        }
     };
 
     #lookUp = (context: CanvasRenderingContext2D) => {
@@ -71,7 +82,7 @@ export class Bird implements Drawable {
         context.save();
         if(this.velocity < 0) this.#lookUp(context);
         else this.#lookDown(context);
-        context.drawImage(this.currentFrame, this.x, this.y);
+        context.drawImage(this.frames[this.currentFrameId], this.x, this.y);
         context.restore();
     };
 
