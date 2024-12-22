@@ -10,6 +10,7 @@ export const config = {
     canvasHeight: 512,
     playAreaWidth: 288,
     playAreaHeight: 512 - 112, // area without base
+    baseHeight: 112,
     pipeOpeningWidth: 130,
     spriteDirectory: "flappy-bird-assets/sprites/",
     audioDirectory: "flappy-bird-assets/audio/",

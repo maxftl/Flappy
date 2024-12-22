@@ -1,5 +1,6 @@
 import { Drawable } from "./drawable";
 import { config } from "./config";
+import { getImage } from "./get_image";
 
 export interface BirdFrames {
     downflap: HTMLImageElement;
@@ -23,9 +24,13 @@ export class Bird implements Drawable {
         this.velocity = 0;
     }
 
-    constructor(frames: BirdFrames) {
-        this.frames = frames;
-        this.currentFrame = frames.midflap;
+    constructor() {
+        this.frames = {
+            downflap: getImage("bluebird-downflap.png"),
+            upflap: getImage("bluebird-upflap.png"),
+            midflap: getImage("bluebird-midflap.png"),
+        };
+        this.currentFrame = this.frames.midflap;
         this.width = this.currentFrame.width;
         this.height = this.currentFrame.height;
         this.x = 0;

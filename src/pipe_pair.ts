@@ -1,6 +1,7 @@
 import { Drawable } from "./drawable";
 import { config } from "./config";
 import { Bird } from "./bird";
+import { getImage } from "./get_image";
 
 export class PipePair implements Drawable {
     x: number;
@@ -9,9 +10,9 @@ export class PipePair implements Drawable {
     openingCenter: number;
     madePoint: boolean;
 
-    constructor(pipeImage: HTMLImageElement, x: number, openingCenter: number) {
+    constructor(x: number, openingCenter: number) {
         this.x = x;
-        this.pipeImage = pipeImage;
+        this.pipeImage = getImage("pipe-green.png");
         this.openingWidth = config.pipeOpeningWidth;
         this.openingCenter = openingCenter;
         this.madePoint = false;

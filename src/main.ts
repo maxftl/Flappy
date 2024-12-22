@@ -7,6 +7,8 @@ import { PipeQueue } from './pipe_queue';
 import { getAudio } from './get_audio';
 import { PointsDisplay } from './points_display';
 import { StartScreen } from './start_screen';
+import { GameScreen } from './game_screen';
+import { start } from 'repl';
 
 
 const canvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
@@ -17,94 +19,13 @@ if (!context) {
   throw "2d Context not supported";
 }
 
-const pointImages: Array<HTMLImageElement> = [];
-for(let i=0; i < 10; ++i) {
-  pointImages.push(getImage(i.toString() + ".png"));
+
+const startScreen = new StartScreen(context);
+const gameScreen = new GameScreen(context);
+
+while(true) {
+  await startScreen.show();
+  await gameScreen.show();
 }
-const pointsDisplay = new PointsDisplay(pointImages, 10, 10);
-
-const backgroundImage = getImage("background-day.png");
-const background = new Background(backgroundImage, config.backgroundVelocity);
-const startScreen = new StartScreen(backgroundImage);
-
-const baseImage = getImage("base.png");
-const base = new Background(baseImage, config.pipeVelocity, config.canvasHeight - baseImage.height);
-
-const birdImages = {
-  downflap: getImage("bluebird-downflap.png"),
-  midflap: getImage("bluebird-midflap.png"),
-  upflap: getImage("bluebird-upflap.png"),
-};
-const bird = new Bird(birdImages);
-
-const pipeImage = getImage("pipe-green.png");
-const pipeQueue = new PipeQueue(pipeImage);
-
-const pointAudio = getAudio("point.ogg");
-
-let upPressed = false;
-window.addEventListener('keydown', (ev: KeyboardEvent) => {
-  if (ev.key == "ArrowUp") {
-    upPressed = true;
-  }
-});
-
-startScreen.draw(context);
-let isRunning = false;
-const runGame = () => {
-  isRunning = true;
-  bird.reset();
-  pipeQueue.reset();
-  background.reset();
-  base.reset();
-  pointsDisplay.reset();
-
-  let lastUpdateTime = Date.now();
-  const loop = () => {
-    if (bird.y > config.canvasHeight - baseImage.height - bird.height) {
-      isRunning = false;
-    }
-    if(pipeQueue.checkCollision(bird)) {
-      isRunning = false;
-    }
-    if(pipeQueue.checkMadePoint()) {
-      console.log(pointAudio);
-      pointAudio.play();
-      pointAudio.load();
-      pointsDisplay.points += 1;
-    }
-    const now = Date.now();
-    const timeDelta = now - lastUpdateTime;
-    background.update(timeDelta);
-    background.draw(context);
-    if (upPressed) {
-      bird.flap();
-      upPressed = false;
-    }
-    pipeQueue.update(timeDelta);
-    pipeQueue.draw(context);
-    bird.update(timeDelta);
-    bird.draw(context);
-    base.update(timeDelta);
-    base.draw(context);
-    pointsDisplay.draw(context);
-    
-    lastUpdateTime = now;
-    if(isRunning) {
-      window.requestAnimationFrame(loop);
-    }
-    else {
-      startScreen.draw(context);
-    }
-
-  }
-  loop();
-}
-
-
-window.addEventListener('mousedown', () => {
-  if(!isRunning)
-    runGame();
-});
 
 

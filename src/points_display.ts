@@ -1,4 +1,5 @@
 import { Drawable } from "./drawable";
+import { getImage } from "./get_image";
 
 export class PointsDisplay implements Drawable {
 
@@ -9,11 +10,14 @@ export class PointsDisplay implements Drawable {
     #digits: Array<number>;
     #points: number;
 
-    constructor(pointImages: Array<HTMLImageElement>, x: number, y: number) {
+    constructor(x: number, y: number) {
+        this.pointImages = [];
+        for(let i=0; i < 10; ++i) {
+          this.pointImages.push(getImage(i.toString() + ".png"));
+        }
         this.x = x;
         this.y = y;
-        this.numberWidth = pointImages[0].width;
-        this.pointImages = pointImages;
+        this.numberWidth = this.pointImages[0].width;
         this.#digits = [];
         this.#points = 0;
     }

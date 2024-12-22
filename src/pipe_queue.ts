@@ -15,12 +15,12 @@ export class PipeQueue implements Drawable {
     pipePairs: Array<PipePair>;
     gameHeight: number;
 
-    constructor(pipeImage: HTMLImageElement) {
+    constructor() {
         this.gameHeight = 250;
         this.pipePairs = [
-            new PipePair(pipeImage, config.canvasWidth, randomOpeningCenter()),
-            new PipePair(pipeImage, config.canvasWidth * 1.5, randomOpeningCenter()),
-            new PipePair(pipeImage, config.canvasWidth * 2, randomOpeningCenter()),
+            new PipePair(config.canvasWidth, randomOpeningCenter()),
+            new PipePair(config.canvasWidth * 1.5, randomOpeningCenter()),
+            new PipePair(config.canvasWidth * 2, randomOpeningCenter()),
         ];
     }
 

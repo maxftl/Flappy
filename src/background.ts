@@ -1,12 +1,14 @@
 import { Sprite } from "./sprite"
 import { config } from "./config";
 import { Drawable } from "./drawable";
+import { getImage } from "./get_image";
 
 export class Background implements Drawable {
     sprites: Array<Sprite>;
     velocity: number;
 
-    constructor(backgroundImage: HTMLImageElement, velocity: number, y: number = 0) {
+    constructor(imageFilename: string, velocity: number, y: number = 0) {
+        const backgroundImage = getImage(imageFilename);
         this.sprites = [
             new Sprite(backgroundImage, 0, y), 
             new Sprite(backgroundImage, config.canvasWidth, y),
