@@ -51,10 +51,8 @@ export class GameScreen {
 
     #registerEvents = () => {
         this.#abortController = new AbortController();
-        window.addEventListener('keydown', (ev: KeyboardEvent) => {
-            if (ev.key == "ArrowUp") {
-                this.#upPressed = true;
-            }
+        window.addEventListener('keydown', () => {
+            this.#upPressed = true;
         }, {
             signal: this.#abortController.signal
         });

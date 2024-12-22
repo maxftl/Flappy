@@ -14,7 +14,7 @@ export class StartScreen {
 
     #registerEvents = () => {
         this.abortControler = new AbortController();
-        window.addEventListener('mousedown', () => {
+        window.addEventListener('keydown', () => {
             this.abortControler.abort();
         },
         {
