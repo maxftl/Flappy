@@ -1,6 +1,6 @@
 import './style.css';
 import { config } from './config';
-import { loadImage } from './load_image';
+import { getImage } from './get_image';
 import { Background } from './background';
 import { Bird } from './bird';
 import { PipeQueue } from './pipe_queue';
@@ -19,25 +19,25 @@ if (!context) {
 
 const pointImages: Array<HTMLImageElement> = [];
 for(let i=0; i < 10; ++i) {
-  pointImages.push(await loadImage(i.toString() + ".png"));
+  pointImages.push(getImage(i.toString() + ".png"));
 }
 const pointsDisplay = new PointsDisplay(pointImages, 10, 10);
 
-const backgroundImage = await loadImage("background-day.png");
+const backgroundImage = getImage("background-day.png");
 const background = new Background(backgroundImage, config.backgroundVelocity);
 const startScreen = new StartScreen(backgroundImage);
 
-const baseImage = await loadImage("base.png");
+const baseImage = getImage("base.png");
 const base = new Background(baseImage, config.pipeVelocity, config.canvasHeight - baseImage.height);
 
 const birdImages = {
-  downflap: await loadImage("bluebird-downflap.png"),
-  midflap: await loadImage("bluebird-midflap.png"),
-  upflap: await loadImage("bluebird-upflap.png"),
+  downflap: getImage("bluebird-downflap.png"),
+  midflap: getImage("bluebird-midflap.png"),
+  upflap: getImage("bluebird-upflap.png"),
 };
 const bird = new Bird(birdImages);
 
-const pipeImage = await loadImage("pipe-green.png");
+const pipeImage = getImage("pipe-green.png");
 const pipeQueue = new PipeQueue(pipeImage);
 
 const pointAudio = await loadAudio("point.ogg");
