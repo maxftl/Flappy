@@ -47,6 +47,8 @@ export class GameScreen {
 
         this.context = context;
 
+        this.pointAudio.playbackRate = 1.5;
+
     }
 
     #registerEvents = () => {
@@ -101,7 +103,6 @@ export class GameScreen {
                 if (this.pipeQueue.checkMadePoint()) {
                     console.log(this.pointAudio);
                     this.pointAudio.play();
-                    this.pointAudio.load();
                     this.pointsDisplay.points += 1;
                 }
                 if (this.#upPressed) {
