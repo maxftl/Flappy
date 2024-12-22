@@ -6,6 +6,7 @@ import { Bird } from './bird';
 import { PipeQueue } from './pipe_queue';
 import { loadAudio } from './load_audio';
 import { PointsDisplay } from './points_display';
+import { StartScreen } from './start_screen';
 
 
 const canvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
@@ -24,6 +25,7 @@ const pointsDisplay = new PointsDisplay(pointImages, 10, 10);
 
 const backgroundImage = await loadImage("background-day.png");
 const background = new Background(backgroundImage, config.backgroundVelocity);
+const startScreen = new StartScreen(backgroundImage);
 
 const baseImage = await loadImage("base.png");
 const base = new Background(baseImage, config.pipeVelocity, config.canvasHeight - baseImage.height);
@@ -47,6 +49,7 @@ window.addEventListener('keydown', (ev: KeyboardEvent) => {
   }
 });
 
+startScreen.draw(context);
 let isRunning = false;
 const runGame = () => {
   isRunning = true;
@@ -87,11 +90,17 @@ const runGame = () => {
     pointsDisplay.draw(context);
     
     lastUpdateTime = now;
-    if(isRunning)
+    if(isRunning) {
       window.requestAnimationFrame(loop);
+    }
+    else {
+      startScreen.draw(context);
+    }
+
   }
   loop();
 }
+
 
 window.addEventListener('mousedown', () => {
   if(!isRunning)
