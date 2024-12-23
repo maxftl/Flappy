@@ -3,12 +3,23 @@ import { config } from "./config";
 export class HighscoreScreen {
     context: CanvasRenderingContext2D;
     #abortController: AbortController;
-    scores: Array<number>;
+    #scores: Array<number>;
+    #lastScore: number;
+
 
     constructor(context: CanvasRenderingContext2D) {
         this.context = context;
         this.#abortController = new AbortController();
-        this.scores = [];
+        this.#scores = [];
+        this.#lastScore = -1;
+    }
+
+    addScore = (points: number) => {
+        this.#scores.push(points);
+        this.#scores.sort((a: number, b: number) => {
+            return b - a;
+        });
+        this.#lastScore = points;
     }
 
     #registerEvents = () => {
@@ -33,8 +44,17 @@ export class HighscoreScreen {
         const x = 50;
         this.context.fillText("Highscore", x, 60);
         let y = 90;
-        this.scores.forEach( (score, index) => {
+        let scoreFound = false;
+        this.#scores.forEach( (score, index) => {
+            if(index > 9)
+                return;
+            this.context.save();
+            if(!scoreFound && score === this.#lastScore) {
+                scoreFound = true;
+                this.context.fillStyle = "yellow";
+            }
             this.context.fillText(`${index + 1}.     ${score}`, x, y);
+            this.context.restore();
             y += 20;
         });
         this.context.restore();

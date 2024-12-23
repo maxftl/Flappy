@@ -1,4 +1,3 @@
-import './style.css';
 import { config } from './config';
 import { StartScreen } from './start_screen';
 import { GameScreen } from './game_screen';
@@ -16,12 +15,11 @@ if (!context) {
 const startScreen = new StartScreen(context);
 const gameScreen = new GameScreen(context);
 const highscoreScreen = new HighscoreScreen(context);
-
 await startScreen.show();
 while(true) {
   await gameScreen.show();
   const points = gameScreen.pointsDisplay.points;
-  highscoreScreen.scores.push(points);
+  highscoreScreen.addScore(points);
   await highscoreScreen.show();
 }
 
