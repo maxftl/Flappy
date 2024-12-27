@@ -2,14 +2,14 @@ import { config } from "./config";
 
 export class HighscoreScreen {
     context: CanvasRenderingContext2D;
-    #abortController: AbortController;
+    #abortControler: AbortController;
     #scores: Array<number>;
     #lastScore: number;
 
 
     constructor(context: CanvasRenderingContext2D) {
         this.context = context;
-        this.#abortController = new AbortController();
+        this.#abortControler = new AbortController();
         this.#scores = [];
         this.#lastScore = -1;
     }
@@ -23,13 +23,21 @@ export class HighscoreScreen {
     }
 
     #registerEvents = () => {
-        this.#abortController = new AbortController();
-        window.addEventListener("keydown", () => {
-            this.#abortController.abort();
-        },
-        {
-            signal: this.#abortController.signal
-        });
+        this.#abortControler = new AbortController();
+        const closeStartScreen = () => {
+            this.#abortControler.abort();
+        };
+        window.addEventListener('keydown',
+            closeStartScreen,
+            {
+                signal: this.#abortControler.signal,
+            });
+        window.addEventListener('touchstart',
+            closeStartScreen,
+            {
+                signal: this.#abortControler.signal,
+            }
+        )
     }
 
     show = async () => {
@@ -59,7 +67,7 @@ export class HighscoreScreen {
         });
         this.context.restore();
         await new Promise( (resolve) => {
-            this.#abortController.signal.addEventListener("abort", resolve);
+            this.#abortControler.signal.addEventListener("abort", resolve);
         });
     }
 }

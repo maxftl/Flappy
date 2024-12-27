@@ -58,6 +58,11 @@ export class GameScreen {
         }, {
             signal: this.#abortController.signal
         });
+        window.addEventListener('touchstart', () => {
+            this.#upPressed = true;
+        }, {
+            signal: this.#abortController.signal
+        });
     }
 
     #unregisterEvents = () => {

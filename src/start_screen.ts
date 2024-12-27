@@ -15,12 +15,20 @@ export class StartScreen {
 
     #registerEvents = () => {
         this.abortControler = new AbortController();
-        window.addEventListener('keydown', () => {
+        const closeStartScreen = () => {
             this.abortControler.abort();
-        },
-        {
-            signal: this.abortControler.signal,
-        });
+        };
+        window.addEventListener('keydown',
+            closeStartScreen,
+            {
+                signal: this.abortControler.signal,
+            });
+        window.addEventListener('touchstart',
+            closeStartScreen,
+            {
+                signal: this.abortControler.signal,
+            }
+        )
     };
 
 
@@ -31,7 +39,7 @@ export class StartScreen {
         this.context.font = "bold 24px sans-serif";
         this.context.fillStyle = "white";
         this.context.drawImage(this.backgroundImage, 0, 0);
-        this.context.fillText("Press any key", 60, config.canvasHeight/2 - 12);
+        this.context.fillText("Press any key", 60, config.canvasHeight / 2 - 12);
         this.context.restore();
 
         await new Promise((resolve) => {
