@@ -1,0 +1,6 @@
+[submodule "public/flappy-bord-assets"]
+	path = public/flappy-bord-assets
+	url = https://github.com/samuelcust/flappy-bird-assets.git
+[submodule "public/flappy-bird-assets"]
+	path = public/flappy-bird-assets
+	url = https://github.com/samuelcust/flappy-bird-assets.git
