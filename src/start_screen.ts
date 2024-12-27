@@ -8,7 +8,7 @@ export class StartScreen {
     abortControler: AbortController;
 
     constructor(context: CanvasRenderingContext2D) {
-        this.backgroundImage = getImage("background-day.png");
+        this.backgroundImage = getImage("background-night.png");
         this.context = context;
         this.abortControler = new AbortController();
     }
@@ -29,6 +29,7 @@ export class StartScreen {
         this.#registerEvents();
         this.context.save();
         this.context.font = "bold 24px sans-serif";
+        this.context.fillStyle = "white";
         this.context.drawImage(this.backgroundImage, 0, 0);
         this.context.fillText("Press any key", 60, config.canvasHeight/2 - 12);
         this.context.restore();
