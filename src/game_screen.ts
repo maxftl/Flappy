@@ -11,17 +11,16 @@ export class GameScreen {
     #abortController: AbortController;
     #upPressed: boolean;
 
-    pointImages: Array<HTMLImageElement> = [];
-    pointsDisplay: PointsDisplay;
-    background: Background;
-    base: Background;
-    bird: Bird;
-    pipeQueue: PipeQueue;
-    pointAudio: HTMLAudioElement;
+    #pointsDisplay: PointsDisplay;
+    #background: Background;
+    #base: Background;
+    #bird: Bird;
+    #pipeQueue: PipeQueue;
+    #pointAudio: HTMLAudioElement;
 
-    sprites: Array<Drawable>;
+    #sprites: Array<Drawable>;
 
-    context: CanvasRenderingContext2D;
+    #context: CanvasRenderingContext2D;
 
 
     constructor(context: CanvasRenderingContext2D) {
@@ -29,25 +28,25 @@ export class GameScreen {
         this.#upPressed = false;
 
         // init sprites
-        this.pointsDisplay = new PointsDisplay(10, 10);
-        this.background = new Background("background-night.png", config.backgroundVelocity);
-        this.base = new Background("base.png", config.pipeVelocity, config.canvasHeight - config.baseHeight);
-        this.bird = new Bird();
-        this.pipeQueue = new PipeQueue();
-        this.pointAudio = getAudio("point.ogg");
+        this.#pointsDisplay = new PointsDisplay(10, 10);
+        this.#background = new Background("background-night.png", config.backgroundVelocity);
+        this.#base = new Background("base.png", config.pipeVelocity, config.canvasHeight - config.baseHeight);
+        this.#bird = new Bird();
+        this.#pipeQueue = new PipeQueue();
+        this.#pointAudio = getAudio("point.ogg");
 
         // order is important here
-        this.sprites = [
-            this.background,
-            this.pipeQueue,
-            this.base,
-            this.bird,
-            this.pointsDisplay,
+        this.#sprites = [
+            this.#background,
+            this.#pipeQueue,
+            this.#base,
+            this.#bird,
+            this.#pointsDisplay,
         ]
 
-        this.context = context;
+        this.#context = context;
 
-        this.pointAudio.playbackRate = 1.5;
+        this.#pointAudio.playbackRate = 1.5;
 
     }
 
@@ -70,19 +69,19 @@ export class GameScreen {
     }
 
     #updateSprites = (timeDelta: number) => {
-        this.sprites.forEach((sprite: Drawable) => {
+        this.#sprites.forEach((sprite: Drawable) => {
             sprite.update(timeDelta);
         });
     }
 
     #drawSprites = () => {
-        this.sprites.forEach((sprite: Drawable) => {
-            sprite.draw(this.context);
+        this.#sprites.forEach((sprite: Drawable) => {
+            sprite.draw(this.#context);
         });
     }
 
     #resetSprites = () => {
-        this.sprites.forEach((sprite: Drawable) => {
+        this.#sprites.forEach((sprite: Drawable) => {
             sprite.reset();
         });
     }
@@ -99,19 +98,19 @@ export class GameScreen {
             let isRunning = true;
             let lastUpdateTime = Date.now();
             const loop = () => {
-                if (this.bird.y > config.canvasHeight - config.baseHeight - this.bird.height) {
+                if (this.#bird.y > config.canvasHeight - config.baseHeight - this.#bird.height) {
                     isRunning = false;
                 }
-                if (this.pipeQueue.checkCollision(this.bird)) {
+                if (this.#pipeQueue.checkCollision(this.#bird)) {
                     isRunning = false;
                 }
-                if (this.pipeQueue.checkMadePoint()) {
-                    console.log(this.pointAudio);
-                    this.pointAudio.play();
-                    this.pointsDisplay.points += 1;
+                if (this.#pipeQueue.checkMadePoint()) {
+                    console.log(this.#pointAudio);
+                    this.#pointAudio.play();
+                    this.#pointsDisplay.points += 1;
                 }
                 if (this.#upPressed) {
-                    this.bird.flap();
+                    this.#bird.flap();
                     this.#upPressed = false;
                 }
                 const now = Date.now();
@@ -129,5 +128,9 @@ export class GameScreen {
             }
             loop();
         });
+    }
+
+    get points() {
+        return this.#pointsDisplay.points;
     }
 };

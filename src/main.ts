@@ -31,7 +31,7 @@ const runGame = async () => {
   await startScreen.show();
   while (true) {
     await gameScreen.show();
-    const points = gameScreen.pointsDisplay.points;
+    const points = gameScreen.points;
     highscoreScreen.addScore(points);
     await highscoreScreen.show();
   }
